@@ -8,4 +8,4 @@ router.post("/signup", authController.signup);
 // sign in
 router.post("/signin", authController.login);
 
-export const authRouter = router;
+export const authRoutes = router;
