@@ -1,4 +1,6 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { config } from "../../config";
 import { pool } from "../../config/db";
 
 const signup = async (payload: Record<string, any>) => {
@@ -16,6 +18,44 @@ const signup = async (payload: Record<string, any>) => {
   return result;
 };
 
+// login
+const login = async (email: string, password: string) => {
+  const result = await pool.query(
+    `
+        SELECT * FROM users WHERE email=$1
+        `,
+    [email]
+  );
+
+  if (!result.rows.length) {
+    return null;
+  }
+
+  const user = result.rows[0];
+  const isMatchPass = bcrypt.compare(password, user.password);
+
+  if (!isMatchPass) {
+    return false;
+  }
+
+  const tokenInfo = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    phone: user.phone,
+    role: user.role,
+  };
+
+  const token = jwt.sign(tokenInfo, config.jwt_secret!, {
+    expiresIn: "3d",
+  });
+
+  delete user.password;
+
+  return { token, user };
+};
+
 export const authService = {
-  createUser: signup,
+  signup,
+  login,
 };
