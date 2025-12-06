@@ -9,7 +9,7 @@ const createVehicles = async (payload: Record<string, unknown>) => {
     availability_status,
   } = payload;
 
-  const result = await pool.query(
+  return await pool.query(
     `
           INSERT INTO vehicles(vehicle_name, type, registration_number, daily_rent_price, availability_status)
           VALUES ($1, $2, $3, $4, $5)  RETURNING *
@@ -22,18 +22,14 @@ const createVehicles = async (payload: Record<string, unknown>) => {
       availability_status,
     ]
   );
-
-  return result.rows[0];
 };
 
 const getAllVehicles = async () => {
-  const result = await pool.query(`SELECT * FROM vehicles`);
-  return result.rows;
+  return await pool.query(`SELECT * FROM vehicles`);
 };
 
 const getSingleVehicle = async (id: string) => {
-  const result = await pool.query(`SELECT * FROM vehicles WHERE id = $1`, [id]);
-  return result.rows[0];
+  return await pool.query(`SELECT * FROM vehicles WHERE id = $1`, [id]);
 };
 
 const updateVehicle = async (
@@ -43,18 +39,19 @@ const updateVehicle = async (
   availability_status: string,
   id: string
 ) => {
-  const result = await pool.query(
+  return await pool.query(
     `UPDATE vehicles SET vehicle_name=$1, type=$2, daily_rent_price=$3, availability_status=$4  WHERE id=$5 RETURNING *`,
     [vehicle_name, type, daily_rent_price, availability_status, id]
   );
-
-  return result.rows[0];
 };
 
 const deleteVehicle = async (id: string) => {
-  const result = await pool.query(`DELETE FROM vehicles WHERE id = $1`, [id]);
-  console.log(result);
-  return result.rowCount;
+  const getVehicle = await getSingleVehicle(id);
+  if (!getVehicle.rowCount) {
+    return null;
+  }
+
+  return await pool.query(`DELETE FROM vehicles WHERE id = $1`, [id]);
 };
 
 export const vehiclesService = {
