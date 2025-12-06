@@ -1,8 +1,9 @@
 import { Router } from "express";
+import { isAdmin } from "./../../middleware/isAdmin";
 import { vechclesController } from "./vehicles.controller";
 
 const router = Router();
 
-router.post("/", vechclesController.createVehicles);
+router.post("/", isAdmin("admin"), vechclesController.createVehicles);
 
 export const vehiclesRoutes = router;

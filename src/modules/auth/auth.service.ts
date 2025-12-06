@@ -9,7 +9,6 @@ const signup = async (payload: Record<string, any>) => {
   const hashedPass = await bcrypt.hash(password, 10);
 
   if (role) {
-    // Insert role if provided
     return await pool.query(
       `
         INSERT INTO users(name, email, password, phone, role)
@@ -18,7 +17,6 @@ const signup = async (payload: Record<string, any>) => {
       [name, email, hashedPass, phone, role]
     );
   } else {
-    // Let PostgreSQL use the default role = 'customer'
     return await pool.query(
       `
         INSERT INTO users(name, email, password, phone)
