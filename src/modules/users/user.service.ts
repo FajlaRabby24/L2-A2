@@ -6,6 +6,62 @@ const getAllUsers = async () => {
         `);
 };
 
+// const getSingleUser = async (id: string) => {
+//   return await pool.query(
+//     `
+//         SELECT * FROM users WHERE id = $1
+//         `,
+//     [id]
+//   );
+// };
+
+// const updateUser = async (
+//   req: Request,
+//   payload: Record<string, unknown>,
+//   id: string
+// ) => {
+//   const getUser = await getSingleUser(id);
+
+//   if (!getUser.rows.length) {
+//     return null;
+//   }
+
+//   const isAdmin = req.user;
+//   console.log({ getUser, isAdmin });
+
+//   //   let alowedFields = ["name", "password", "phone"];
+
+//   //   if (isAdmin.role === "admin") {
+//   //     alowedFields.push("role");
+//   //   }
+
+//   //   delete payload.id;
+//   //   delete payload.email;
+
+//   //   const entries = Object.entries(payload).filter(([key]) =>
+//   //     alowedFields.includes(key)
+//   //   );
+
+//   //   const setQuery = entries
+//   //     .map(([key], index) => `${key}=$${index + 1}`)
+//   //     .join(", ");
+
+//   //   const values = entries.map(([_, value]) => value);
+
+//   //   const result = await pool.query(
+//   //     `
+//   //     UPDATE users SET ${setQuery} WHERE id=$${values.length + 1} RETURNING *
+//   //     `,
+//   //     [...values, id]
+//   //   );
+
+//   return "hello";
+// };
+
+const deleteUser = (id: string) => {};
+
 export const userService = {
   getAllUsers,
+  //   updateUser,
+  deleteUser,
 };

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { isAdmin } from "./../../middleware/isAdmin";
+import { isAdmin } from "../../middleware/isAdmin";
 import { vehiclesController } from "./vehicles.controller";
 
 const router = Router();
