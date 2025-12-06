@@ -35,4 +35,23 @@ export const initDB = async () => {
                 CONSTRAINT valid_availability_status CHECK (availability_status IN ('available', 'booked'))
                 )
                 `);
+
+  await pool.query(`
+                 CREATE TABLE IF NOT EXISTS bookings (
+    id SERIAL PRIMARY KEY,
+
+    customer_id INT REFERENCES users(id) ON DELETE CASCADE,
+    vehicle_id INT REFERENCES vehicles(id) ON DELETE CASCADE,
+
+    rent_start_date DATE NOT NULL,
+    rent_end_date DATE NOT NULL,
+
+    total_price INT NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'active',
+
+    CONSTRAINT valid_status CHECK (status IN ('active', 'cancelled', 'returned')),
+    CONSTRAINT positive_price CHECK (total_price > 0),
+    CONSTRAINT valid_rent_date CHECK (rent_end_date > rent_start_date)
+);
+                  `);
 };
