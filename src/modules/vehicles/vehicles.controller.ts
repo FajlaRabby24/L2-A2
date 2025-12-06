@@ -32,8 +32,27 @@ const getSingleVehicle = async (req: Request, res: Response) => {
   }
 };
 
+const updateVehicle = async (req: Request, res: Response) => {
+  try {
+    const { vehicle_name, type, daily_rent_price, availability_status } =
+      req.body;
+    const result = await vehiclesService.updateVehicle(
+      vehicle_name,
+      type,
+      daily_rent_price,
+      availability_status,
+      req.params.vehicleId!
+    );
+    console.log(req.body);
+    sendResponse(res, 200, true, "Vehicle updated successfully", result);
+  } catch (error: any) {
+    sendResponse(res, 500, false, error.message);
+  }
+};
+
 export const vehiclesController = {
   createVehicles,
   getAllVehicles,
   getSingleVehicle,
+  updateVehicle,
 };
