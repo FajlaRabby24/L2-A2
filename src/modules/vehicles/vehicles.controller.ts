@@ -21,7 +21,19 @@ const getAllVehicles = async (req: Request, res: Response) => {
   }
 };
 
+const getSingleVehicle = async (req: Request, res: Response) => {
+  try {
+    const result = await vehiclesService.getSingleVehicle(
+      req.params.vehicleId!
+    );
+    sendResponse(res, 200, true, "Vehicle retrieved  successfully", result);
+  } catch (error: any) {
+    sendResponse(res, 500, false, error.message);
+  }
+};
+
 export const vehiclesController = {
   createVehicles,
   getAllVehicles,
+  getSingleVehicle,
 };
