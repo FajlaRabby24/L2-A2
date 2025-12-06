@@ -26,6 +26,22 @@ const createBooking = async (req: Request, res: Response) => {
   }
 };
 
+const getBookings = async (req: Request, res: Response) => {
+  try {
+    const result = await bookingService.getBookings(req.user!);
+    if (!result.rowCount) {
+      return sendResponse(res, 200, true, "There was no booking.");
+    }
+    if (result.rowCount === 1) {
+      return sendResponse(res, 200, true, "Success", result.rows[0]);
+    }
+    return sendResponse(res, 200, true, "Success", result.rows);
+  } catch (error: any) {
+    return sendResponse(res, 500, false, error.message);
+  }
+};
+
 export const bookginController = {
-  createBookgin: createBooking,
+  createBooking,
+  getBookings,
 };

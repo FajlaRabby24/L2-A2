@@ -27,6 +27,24 @@ const createBooking = async (payload: Record<string, unknown>) => {
   return result;
 };
 
+const getBookings = async (payload: Record<string, unknown>) => {
+  if (payload.role === "admin") {
+    const result = await pool.query(`SELECT * FROM bookings`);
+    return result;
+  }
+
+  if (payload.role === "customer") {
+    const result = await pool.query(`SELECT * FROM bookings WHERE id = $1`, [
+      payload.id,
+    ]);
+    return result;
+  }
+
+  // fallback
+  throw new Error("Invalid role");
+};
+
 export const bookingService = {
   createBooking,
+  getBookings,
 };

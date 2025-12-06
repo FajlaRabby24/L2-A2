@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { config } from "../config";
 import { sendResponse } from "../utils/sendResponse";
 
-export const isAdmin = (...roles: ("admin" | "customer")[]) => {
+export const auth = (...roles: ("admin" | "customer")[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       const token = req.headers.authorization;
