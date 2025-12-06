@@ -5,7 +5,15 @@ import { authService } from "./auth.service";
 const signup = async (req: Request, res: Response) => {
   try {
     const result = await authService.signup(req.body);
-    console.log(result);
+
+    if (!result.rowCount) {
+      return sendResponse(
+        res,
+        500,
+        false,
+        "Something went wrong! please try again"
+      );
+    }
     sendResponse(res, 201, true, "User created successfully. Please Login!");
   } catch (error: any) {
     sendResponse(res, 500, false, error.message);
@@ -16,8 +24,15 @@ const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     const result = await authService.login(email, password);
-    console.log({ result });
 
+    if (!result) {
+      return sendResponse(
+        res,
+        500,
+        false,
+        "Something went wrong! please try again"
+      );
+    }
     sendResponse(res, 200, true, "User login successfully", result);
   } catch (error: any) {
     sendResponse(res, 500, false, error.message);
