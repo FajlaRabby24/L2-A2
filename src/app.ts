@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { initDB } from "./config/db";
 import { authRoutes } from "./modules/auth/auth.route";
+import { usersRoutes } from "./modules/users/user.route";
 import { vehiclesRoutes } from "./modules/vehicles/vehicles.route";
 
 const app = express();
@@ -13,6 +14,9 @@ app.use("/api/v1/auth", authRoutes);
 
 //* vehicles route
 app.use("/api/v1/vehicles", vehiclesRoutes);
+
+// * users route
+app.use("/api/v1/users", usersRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
