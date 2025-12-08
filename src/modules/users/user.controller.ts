@@ -45,7 +45,15 @@ const updateUser = async (req: Request, res: Response) => {
 const deleteUser = async (req: Request, res: Response) => {
   try {
     const result = await userService.deleteUser(req.params.userId!);
-    console.log(result);
+
+    if (result.toString().toLowerCase().startsWith("user")) {
+      return sendResponse(res, 500, false, `${result}`);
+    }
+
+    if (result.toString().toLowerCase().startsWith("this")) {
+      return sendResponse(res, 500, false, `${result}`);
+    }
+
     sendResponse(res, 200, true, "Users deleted successfully");
   } catch (error: any) {
     sendResponse(res, 500, false, error.message);

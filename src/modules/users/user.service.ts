@@ -16,6 +16,7 @@ const getSingleUser = async (id: string) => {
   );
 };
 
+// update user by id -> admin, own
 const updateUser = async (
   req: Request,
   payload: Record<string, unknown>,
@@ -57,7 +58,31 @@ const updateUser = async (
   return result;
 };
 
-const deleteUser = (id: string) => {};
+// delete user by id -> admin
+const deleteUser = async (id: string) => {
+  const getUser = await getSingleUser(id);
+
+  if (!getUser.rowCount) {
+    return "User not found!";
+  }
+
+  const getUserBookings = await pool.query(
+    "SELECT * FROM bookings WHERE customer_id = $1",
+    [id]
+  );
+
+  let isActive: boolean = false;
+
+  if (getUserBookings.rowCount! > 0) {
+    isActive = getUserBookings.rows[0].status === "active";
+  }
+
+  if (isActive) {
+    return "This user has active booking. So you can't delete";
+  }
+  const result = await pool.query(`DELETE FROM users WHERE id = $1`, [id]);
+  return result;
+};
 
 export const userService = {
   getAllUsers,
