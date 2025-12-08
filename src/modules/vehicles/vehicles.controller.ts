@@ -110,6 +110,10 @@ const deleteVehicle = async (req: Request, res: Response) => {
       );
     }
 
+    if (result.toString().toLowerCase().startsWith("this")) {
+      return sendResponse(res, 500, false, `${result}`);
+    }
+
     sendResponse(res, 200, true, "Vehicle deleted successfully");
   } catch (error: any) {
     sendResponse(res, 500, false, error.message);

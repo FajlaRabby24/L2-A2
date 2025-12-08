@@ -79,7 +79,12 @@ const deleteVehicle = async (id: string) => {
     return null;
   }
 
-  return await pool.query(`DELETE FROM vehicles WHERE id = $1`, [id]);
+  if (getVehicle.rows[0].availability_status === "booked") {
+    return "This vehicle is already booked. You can't delete this vehicle right now";
+  }
+
+  const result = await pool.query(`DELETE FROM vehicles WHERE id = $1`, [id]);
+  return result.rowCount;
 };
 
 export const vehiclesService = {
