@@ -29,31 +29,31 @@ const getAllUsers = async () => {
 //   const isAdmin = req.user;
 //   console.log({ getUser, isAdmin });
 
-//   //   let alowedFields = ["name", "password", "phone"];
+//   let alowedFields = ["name", "password", "phone"];
 
-//   //   if (isAdmin.role === "admin") {
-//   //     alowedFields.push("role");
-//   //   }
+//   if (isAdmin.role === "admin") {
+//     alowedFields.push("role");
+//   }
 
-//   //   delete payload.id;
-//   //   delete payload.email;
+//   delete payload.id;
+//   delete payload.email;
 
-//   //   const entries = Object.entries(payload).filter(([key]) =>
-//   //     alowedFields.includes(key)
-//   //   );
+//   const entries = Object.entries(payload).filter(([key]) =>
+//     alowedFields.includes(key)
+//   );
 
-//   //   const setQuery = entries
-//   //     .map(([key], index) => `${key}=$${index + 1}`)
-//   //     .join(", ");
+//   const setQuery = entries
+//     .map(([key], index) => `${key}=$${index + 1}`)
+//     .join(", ");
 
-//   //   const values = entries.map(([_, value]) => value);
+//   const values = entries.map(([_, value]) => value);
 
-//   //   const result = await pool.query(
-//   //     `
-//   //     UPDATE users SET ${setQuery} WHERE id=$${values.length + 1} RETURNING *
-//   //     `,
-//   //     [...values, id]
-//   //   );
+//   const result = await pool.query(
+//   );
+//     `
+//     UPDATE users SET ${setQuery} WHERE id=$${values.length + 1} RETURNING *
+//     `,
+//     [...values, id]
 
 //   return "hello";
 // };

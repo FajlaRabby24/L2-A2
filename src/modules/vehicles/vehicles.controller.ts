@@ -36,7 +36,7 @@ const getAllVehicles = async (req: Request, res: Response) => {
       res,
       200,
       true,
-      "Vehicles retrieved  successfully",
+      "Vehicles retrieved successfully",
       result.rows
     );
   } catch (error: any) {
@@ -62,7 +62,7 @@ const getSingleVehicle = async (req: Request, res: Response) => {
       res,
       200,
       true,
-      "Vehicle retrieved  successfully",
+      "Vehicle retrieved successfully",
       result.rows[0]
     );
   } catch (error: any) {
@@ -72,17 +72,12 @@ const getSingleVehicle = async (req: Request, res: Response) => {
 
 const updateVehicle = async (req: Request, res: Response) => {
   try {
-    const { vehicle_name, type, daily_rent_price, availability_status } =
-      req.body;
     const result = await vehiclesService.updateVehicle(
-      vehicle_name,
-      type,
-      daily_rent_price,
-      availability_status,
+      req.body,
       req.params.vehicleId!
     );
 
-    if (!result.rowCount) {
+    if (!result?.rowCount) {
       return sendResponse(
         res,
         404,

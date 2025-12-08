@@ -29,15 +29,15 @@ const getAllUsers = async (req: Request, res: Response) => {
 //       req.params.userId!
 //     );
 
-//     // if (!result.rowCount) {
-//     //   return sendResponse(
-//     //     res,
-//     //     500,
-//     //     false,
-//     //     "Something went wrong! please try again"
-//     //   );
-//     // }
-//     // sendResponse(res, 200, true, "Users retrive successfully", result.rows[0]);
+// if (!result.rowCount) {
+//   return sendResponse(
+//     res,
+//     500,
+//     false,
+//     "Something went wrong! please try again"
+//   );
+// }
+// sendResponse(res, 200, true, "Users retrive successfully", result.rows[0]);
 //     sendResponse(res, 200, true, "Users retrive successfully", result);
 //   } catch (error: any) {
 //     sendResponse(res, 500, false, error.message);
