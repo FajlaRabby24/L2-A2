@@ -2,17 +2,13 @@ import { Request, Response } from "express";
 import { sendResponse } from "../../utils/sendResponse";
 import { userService } from "./user.service";
 
+// get all user
 const getAllUsers = async (req: Request, res: Response) => {
   try {
     const result = await userService.getAllUsers();
 
     if (!result.rowCount) {
-      return sendResponse(
-        res,
-        500,
-        false,
-        "Something went wrong! please try again"
-      );
+      return sendResponse(res, 500, false, "There was no users!");
     }
 
     sendResponse(res, 200, true, "Users retrive successfully", result.rows);
