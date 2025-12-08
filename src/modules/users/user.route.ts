@@ -7,7 +7,11 @@ const router = Router();
 
 router.get("/", auth(authConstant.admin), usersControllers.getAllUsers);
 
-// router.put("/:userId", auth("admin", "customer"), usersControllers.updateUser);
+router.put(
+  "/:userId",
+  auth(authConstant.admin, authConstant.customer),
+  usersControllers.updateUser
+);
 
 router.delete(
   "/:userId",
