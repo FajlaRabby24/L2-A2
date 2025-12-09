@@ -15,7 +15,11 @@ const createBooking = async (
   const getVehicle = await getSingleVehicle(vehicle_id as string);
 
   if (!getVehicle.rowCount) {
-    return "That vehicles doesn't exists!";
+    return "doesn't exists!";
+  }
+
+  if (getVehicle.rows[0].availability_status === "booked") {
+    return "booked";
   }
 
   const dayly_rent_price = getVehicle.rows[0].daily_rent_price as number;

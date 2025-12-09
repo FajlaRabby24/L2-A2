@@ -8,6 +8,15 @@ const createBooking = async (req: Request, res: Response) => {
     const result = await bookingService.createBooking(req.body);
 
     if (typeof result === "string") {
+      if (result === "doesn't exists!") {
+        return sendResponse(res, 400, false, "This vehicle doesn't exist!");
+      }
+
+      if (result === "booked") {
+        return sendResponse(res, 400, false, "This vehicle is already booked");
+      }
+
+      // fallback unknown string
       return sendResponse(res, 400, false, result);
     }
 
