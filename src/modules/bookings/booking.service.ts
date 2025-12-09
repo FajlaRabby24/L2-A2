@@ -103,32 +103,25 @@ const updateBooking = async (
     );
 
     if (isOwnBookings.rowCount) {
-      const result = await pool.query(
-        `SELECT * FROM bookings WHERE customer_id=$1`,
-        [user.id]
+      console.log({ result: isOwnBookings.rows[0] });
+      console.log({ isOwnBookings: isOwnBookings.rows[0] });
+
+      const isBookingsDateOver = isDateOver(
+        isOwnBookings.rows[0].rent_start_date
       );
+      console.log(isBookingsDateOver);
 
-      if (!result.rowCount) {
-        return null;
-      }
-
-      const remainigBookingsIds = [...result.rows]
-        .filter((booking) => isDateOver(booking.rent_start_date) !== true)
-        .map((booking) => booking.id);
-
-      const updatePromises = remainigBookingsIds.map(async (bookingId) => {
+      if (!isBookingsDateOver) {
         const result = await pool.query(
           `
-      UPDATE bookings SET status=$1  WHERE id=$2 RETURNING *
-  `,
-          ["cancelled", bookingId]
+          UPDATE bookings SET status=$1  WHERE id=$2 RETURNING *
+      `,
+          ["cancelled", id]
         );
 
-        return result.rows[0];
-      });
-
-      const updatedBookings = await Promise.all(updatePromises);
-      return updatedBookings;
+        return result;
+      }
+      return null;
     }
     return null;
   }
