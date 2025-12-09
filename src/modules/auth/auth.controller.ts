@@ -41,7 +41,7 @@ const login = async (req: Request, res: Response) => {
         "Something went wrong! please try again"
       );
     }
-    sendResponse(res, 200, true, "User login successfully", result);
+    sendResponse(res, 200, true, "Login successful", result);
   } catch (error: any) {
     sendResponse(res, 500, false, error.message);
   }
