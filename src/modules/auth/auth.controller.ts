@@ -14,7 +14,15 @@ const signup = async (req: Request, res: Response) => {
         "Something went wrong! please try again"
       );
     }
-    sendResponse(res, 201, true, "User created successfully. Please Login!");
+
+    delete result.rows[0].password;
+    sendResponse(
+      res,
+      201,
+      true,
+      "User registered successfully",
+      result.rows[0]
+    );
   } catch (error: any) {
     sendResponse(res, 500, false, error.message);
   }

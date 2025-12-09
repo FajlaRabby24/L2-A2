@@ -5,25 +5,30 @@ import { pool } from "../../config/db";
 
 const signup = async (payload: Record<string, any>) => {
   const { name, role, email, password, phone } = payload;
+  console.log(payload);
 
   const hashedPass = await bcrypt.hash(password, 10);
 
   if (role) {
-    return await pool.query(
+    const result = await pool.query(
       `
         INSERT INTO users(name, email, password, phone, role)
-        VALUES ($1, $2, $3, $4, $5)
+        VALUES ($1, $2, $3, $4, $5) RETURNING *
       `,
       [name, email, hashedPass, phone, role]
     );
+
+    return result;
   } else {
-    return await pool.query(
+    const result = await pool.query(
       `
         INSERT INTO users(name, email, password, phone)
-        VALUES ($1, $2, $3, $4)
+        VALUES ($1, $2, $3, $4) RETURNING *
       `,
       [name, email, hashedPass, phone]
     );
+
+    return result;
   }
 };
 
