@@ -26,12 +26,12 @@ const createVehicles = async (payload: Record<string, unknown>) => {
   return result;
 };
 
-// get all vehicle
+// get all vehicle -> public
 const getAllVehicles = async () => {
   return await pool.query(`SELECT * FROM vehicles`);
 };
 
-// get sigle vehicle
+// get sigle vehicle -> public
 export const getSingleVehicle = async (id: string) => {
   return await pool.query(`SELECT * FROM vehicles WHERE id = $1`, [id]);
 };

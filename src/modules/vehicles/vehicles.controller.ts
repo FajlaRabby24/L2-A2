@@ -46,6 +46,7 @@ const getAllVehicles = async (req: Request, res: Response) => {
   }
 };
 
+// get single vehicle -> public
 const getSingleVehicle = async (req: Request, res: Response) => {
   try {
     const result = await vehiclesService.getSingleVehicle(
