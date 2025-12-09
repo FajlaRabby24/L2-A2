@@ -8,7 +8,6 @@ Live URL: [https://l2-a2-rust.vercel.app](https://l2-a2-rust.vercel.app)
 
 **Backend API Development** is a RESTful API built with Node.js, Express, TypeScript, and PostgreSQL. It includes user authentication, secure password hashing, environment variable configuration, and database integration using PostgreSQL.
 
-This API can be used as the backend for various applications such as LMS, e‑commerce, booking systems, or general CRUD-based platforms.
 
 ---
 
