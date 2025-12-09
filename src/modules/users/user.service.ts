@@ -1,5 +1,6 @@
 import { Request } from "express";
 import { pool } from "../../config/db";
+import { authConstant } from "../auth/auth.constant";
 
 // get all user -> admin
 const getAllUsers = async () => {
@@ -34,7 +35,7 @@ const updateUser = async (
 
   let alowedFields = ["name", "password", "phone"];
 
-  if (isAdmin!.role === "admin") {
+  if (isAdmin!.role === authConstant.admin) {
     alowedFields.push("role");
   }
 

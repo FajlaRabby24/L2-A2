@@ -35,7 +35,7 @@ const updateUser = async (req: Request, res: Response) => {
         `There was nothing to find anyone to this id - ${req.params.userId}. Please try another Id`
       );
     }
-    sendResponse(res, 200, true, "Users retrive successfully", result.rows[0]);
+    sendResponse(res, 200, true, "Users update successfully", result.rows[0]);
   } catch (error: any) {
     sendResponse(res, 500, false, error.message);
   }
