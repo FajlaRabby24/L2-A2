@@ -1,17 +1,16 @@
-## Backend API Development
+# Backend API Development
 
 Live URL: [https://l2-a2-rust.vercel.app](https://l2-a2-rust.vercel.app)
 
 ---
 
-## 🚀 Project Overview
+## Project Overview
 
 **Backend API Development** is a RESTful API built with Node.js, Express, TypeScript, and PostgreSQL. It includes user authentication, secure password hashing, environment variable configuration, and database integration using PostgreSQL.
 
-
 ---
 
-## ✨ Features
+## Features
 
 - **User Authentication** using JWT
 - **Password Hashing** with bcrypt
@@ -23,7 +22,7 @@ Live URL: [https://l2-a2-rust.vercel.app](https://l2-a2-rust.vercel.app)
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 ### **Backend Framework**
 
@@ -55,7 +54,7 @@ Live URL: [https://l2-a2-rust.vercel.app](https://l2-a2-rust.vercel.app)
 
 ---
 
-## ⚙️ Setup Instructions
+## Setup Instructions
 
 ### **1. Clone the repository**
 
@@ -97,7 +96,7 @@ npm run build
 
 ---
 
-## ▶️ Usage Instructions
+## Usage Instructions
 
 ### **Start API**
 
@@ -118,7 +117,53 @@ Use **Postman**, **Insomnia**, or any REST client:
 
 ---
 
-## 📦 package.json (Reference)
+## API Routes
+
+The following routes are available in this backend API:
+
+### **Auth Routes**
+
+`/api/v1/auth`
+
+- User registration
+- User login
+- Token-based authentication
+
+### **Vehicle Routes**
+
+`/api/v1/vehicles`
+
+- CRUD operations for vehicles
+
+### **User Routes**
+
+`/api/v1/users`
+
+- Fetch users
+- Manage users
+
+### **Booking Routes**
+
+`/api/v1/bookings`
+
+- Create bookings
+- Manage booking records
+
+### **Root Route**
+
+`/`
+Returns a JSON response:
+
+```json
+{
+  "success": true,
+  "message": "This is root route!"
+}
+```
+
+---
+
+## package.json (Reference)
 
 Your project uses the following key dependencies:
 
