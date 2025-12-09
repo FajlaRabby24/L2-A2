@@ -25,7 +25,6 @@ const updateUser = async (req: Request, res: Response) => {
       req.body,
       req.params.userId!
     );
-    console.log(result);
 
     if (!result) {
       return sendResponse(

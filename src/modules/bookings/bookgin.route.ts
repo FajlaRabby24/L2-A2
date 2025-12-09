@@ -12,12 +12,14 @@ router.post(
   bookginController.createBooking
 );
 
+// get bookings -> admin, customer
 router.get(
   "/",
   auth(authConstant.admin, authConstant.customer),
   bookginController.getBookings
 );
 
+// update bookings by id -> admin, customer
 router.put(
   "/:bookingId",
   auth(authConstant.admin, authConstant.customer),

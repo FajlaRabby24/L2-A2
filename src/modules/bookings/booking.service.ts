@@ -137,6 +137,7 @@ const getSingleBooking = async (id: string) => {
 // update booking by id -> admin, own
 const updateBooking = async (
   user: Record<string, unknown>,
+  payload: Record<string, unknown>,
   id: string
 ): Promise<QueryResult<any> | any> => {
   // customer
@@ -154,12 +155,14 @@ const updateBooking = async (
         isOwnBookings.rows[0].rent_start_date
       );
 
+      const { status = "cancelled" } = payload;
+
       if (!isBookingsDateOver) {
         const result = await pool.query(
           `
           UPDATE bookings SET status=$1  WHERE id=$2 RETURNING *
       `,
-          ["cancelled", id]
+          [status, id]
         );
 
         return result;
@@ -175,19 +178,25 @@ const updateBooking = async (
       return null;
     }
 
+    const { status = "returned" } = payload;
+
     // Update booking
     const result = await pool.query(
       `UPDATE bookings SET status = $1 WHERE id = $2 RETURNING *`,
-      ["returned", id]
+      [status, id]
     );
 
     // Update vehicle
-    await pool.query(
-      `UPDATE vehicles SET availability_status = $1 WHERE id = $2`,
+    const updateVehicle = await pool.query(
+      `UPDATE vehicles SET availability_status = $1 WHERE id = $2 RETURNING availability_status`,
       ["available", getBooking.rows[0].vehicle_id]
     );
 
-    return result;
+    return {
+      ...result.rows[0],
+      vehicle: updateVehicle.rows[0],
+      message: authConstant.admin,
+    };
   } else {
     console.log("system");
   }

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { sendResponse } from "../../utils/sendResponse";
+import { authConstant } from "../auth/auth.constant";
 import { bookingService } from "./booking.service";
 
 // create booking -> admin, customer
@@ -74,6 +75,7 @@ const updateBooking = async (req: Request, res: Response) => {
   try {
     const result = await bookingService.updateBooking(
       req.user!,
+      req.body,
       req.params.bookingId!
     );
 
@@ -86,13 +88,24 @@ const updateBooking = async (req: Request, res: Response) => {
       );
     }
 
-    sendResponse(
-      res,
-      200,
-      true,
-      "Booking updated successfully",
-      result.rows[0]
-    );
+    if (result?.message === authConstant.admin) {
+      const { vehicle, message, ...rest } = result;
+      sendResponse(
+        res,
+        200,
+        true,
+        "Booking marked as returned. Vehicle is now available",
+        { ...rest, vehicle }
+      );
+    } else {
+      sendResponse(
+        res,
+        200,
+        true,
+        "Booking cancelled successfully",
+        result.rows[0]
+      );
+    }
   } catch (error: any) {
     sendResponse(res, 500, false, error.message);
   }

@@ -30,7 +30,6 @@ export const auth = (...roles: ("admin" | "customer")[]) => {
 
       next();
     } catch (error: any) {
-      console.log(error);
       sendResponse(res, 500, false, error.message);
     }
   };
