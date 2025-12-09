@@ -61,8 +61,8 @@ This API can be used as the backend for various applications such as LMS, e‑co
 ### **1. Clone the repository**
 
 ```bash
-git clone <your-repo-url>
-cd <project-folder>
+git clone https://github.com/FajlaRabby24/L2-A2
+cd L2-A2
 ```
 
 ### **2. Install Dependencies**
@@ -134,19 +134,3 @@ Your project uses the following key dependencies:
 Built for modern backend workflow with strong type‑safety and efficient runtime.
 
 ---
-
-## 🌐 Live API URL
-
-### **[https://l2-a2-rust.vercel.app](https://l2-a2-rust.vercel.app)**
-
-Use this to integrate with frontend or test endpoints.
-
----
-
-## 📄 License
-
-This project is licensed under the **ISC License**.
-
----
-
-If you want, I can also generate API documentation, folder structure explanation, or add more sections to this README!
