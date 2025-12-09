@@ -36,7 +36,7 @@ export const getSingleVehicle = async (id: string) => {
   return await pool.query(`SELECT * FROM vehicles WHERE id = $1`, [id]);
 };
 
-// update vehicle
+// update vehicle by id -> admin
 const updateVehicle = async (payload: Record<string, unknown>, id: string) => {
   const getVehicle = await getSingleVehicle(id);
 

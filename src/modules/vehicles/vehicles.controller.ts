@@ -73,6 +73,7 @@ const getSingleVehicle = async (req: Request, res: Response) => {
   }
 };
 
+// update vehicle by id -> admin
 const updateVehicle = async (req: Request, res: Response) => {
   try {
     const result = await vehiclesService.updateVehicle(
