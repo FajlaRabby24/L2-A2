@@ -54,22 +54,30 @@ const getBookings = async (req: Request, res: Response) => {
   }
 };
 
+// update booking by id -> admin, own
 const updateBooking = async (req: Request, res: Response) => {
   try {
     const result = await bookingService.updateBooking(
       req.user!,
       req.params.bookingId!
     );
-    // if (!result.rowCount) {
-    //   return sendResponse(
-    //     res,
-    //     500,
-    //     false,
-    //     "Something went wrong! please try again"
-    //   );
-    // }
 
-    sendResponse(res, 200, true, "Booking updated successfully", result);
+    if (!result) {
+      return sendResponse(
+        res,
+        500,
+        false,
+        "Something went wrong! please try again"
+      );
+    }
+
+    sendResponse(
+      res,
+      200,
+      true,
+      "Booking updated successfully",
+      result.rows[0]
+    );
   } catch (error: any) {
     sendResponse(res, 500, false, error.message);
   }

@@ -75,7 +75,24 @@ const getBookings = async (user: Record<string, unknown>) => {
   throw new Error("Invalid role");
 };
 
-const updateBooking = async (user: Record<string, unknown>, id: string) => {
+// get single bookings
+const getSingleBooking = async (id: string) => {
+  const result = await pool.query(
+    `
+    SELECT * FROM bookings WHERE id = $1
+    `,
+    [id]
+  );
+
+  return result;
+};
+
+// update booking by id -> admin, own
+const updateBooking = async (
+  user: Record<string, unknown>,
+  id: string
+): Promise<QueryResult<any> | any> => {
+  // customer
   if (user.role === authConstant.customer) {
     const isOwnBookings = await pool.query(
       `
@@ -90,6 +107,7 @@ const updateBooking = async (user: Record<string, unknown>, id: string) => {
         `SELECT * FROM bookings WHERE customer_id=$1`,
         [user.id]
       );
+
       if (!result.rowCount) {
         return null;
       }
@@ -113,8 +131,27 @@ const updateBooking = async (user: Record<string, unknown>, id: string) => {
       return updatedBookings;
     }
     return null;
-  } else if (user.role === authConstant.admin) {
-    console.log({ admin: user });
+  }
+  // admin
+  else if (user.role === authConstant.admin) {
+    const getBooking = await getSingleBooking(id);
+    if (!getBooking.rowCount) {
+      return null;
+    }
+
+    // Update booking
+    const result = await pool.query(
+      `UPDATE bookings SET status = $1 WHERE id = $2 RETURNING *`,
+      ["returned", id]
+    );
+
+    // Update vehicle
+    await pool.query(
+      `UPDATE vehicles SET availability_status = $1 WHERE id = $2`,
+      ["available", getBooking.rows[0].vehicle_id]
+    );
+
+    return result;
   } else {
     console.log("system");
   }

@@ -19,7 +19,7 @@ router.get(
 
 router.put(
   "/:bookingId",
-  auth("admin", "customer"),
+  auth(authConstant.admin, authConstant.customer),
   bookginController.updateBooking
 );
 
