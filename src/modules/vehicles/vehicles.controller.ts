@@ -101,6 +101,7 @@ const updateVehicle = async (req: Request, res: Response) => {
   }
 };
 
+// delete vehicle by id -> admin
 const deleteVehicle = async (req: Request, res: Response) => {
   try {
     const result = await vehiclesService.deleteVehicle(req.params.vehicleId!);

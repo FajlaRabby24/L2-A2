@@ -72,7 +72,7 @@ const updateVehicle = async (payload: Record<string, unknown>, id: string) => {
   return result;
 };
 
-// delete vehicle
+// delete vehicle by id -> admin
 const deleteVehicle = async (id: string) => {
   const getVehicle = await getSingleVehicle(id);
 
