@@ -27,11 +27,12 @@ const createVehicles = async (req: Request, res: Response) => {
   }
 };
 
+// get vehicles -> public
 const getAllVehicles = async (req: Request, res: Response) => {
   try {
     const result = await vehiclesService.getAllVehicles();
     if (!result.rowCount) {
-      return sendResponse(res, 500, true, "There was no vehicles");
+      return sendResponse(res, 500, true, "No vehicles found", []);
     }
     sendResponse(
       res,
