@@ -35,13 +35,13 @@ const updateUser = async (req: Request, res: Response) => {
         `There was nothing to find anyone to this id - ${req.params.userId}. Please try another Id`
       );
     }
-    sendResponse(res, 200, true, "Users update successfully", result.rows[0]);
+    sendResponse(res, 200, true, "Users updated successfully", result.rows[0]);
   } catch (error: any) {
     sendResponse(res, 500, false, error.message);
   }
 };
 
-// delete user by id
+// delete user by id -> admin
 const deleteUser = async (req: Request, res: Response) => {
   try {
     const result = await userService.deleteUser(req.params.userId!);
@@ -54,7 +54,7 @@ const deleteUser = async (req: Request, res: Response) => {
       return sendResponse(res, 500, false, `${result}`);
     }
 
-    sendResponse(res, 200, true, "Users deleted successfully");
+    sendResponse(res, 200, true, "User deleted successfully");
   } catch (error: any) {
     sendResponse(res, 500, false, error.message);
   }

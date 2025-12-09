@@ -8,12 +8,14 @@ const router = Router();
 // get all users -> admin
 router.get("/", auth(authConstant.admin), usersControllers.getAllUsers);
 
+// user update by id -> admin, own
 router.put(
   "/:userId",
   auth(authConstant.admin, authConstant.customer),
   usersControllers.updateUser
 );
 
+// delete user by id -> admin
 router.delete(
   "/:userId",
   auth(authConstant.admin),
