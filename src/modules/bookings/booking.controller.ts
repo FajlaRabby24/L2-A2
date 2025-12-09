@@ -48,10 +48,22 @@ const getBookings = async (req: Request, res: Response) => {
     }
 
     if (result.rowCount === 1) {
-      return sendResponse(res, 200, true, "Success", result.rows[0]);
+      return sendResponse(
+        res,
+        200,
+        true,
+        "Your bookings retrieved successfully",
+        result.rows[0]
+      );
     }
 
-    return sendResponse(res, 200, true, "Success", result.rows);
+    return sendResponse(
+      res,
+      200,
+      true,
+      "Bookings retrieved successfully",
+      result.rows
+    );
   } catch (error: any) {
     return sendResponse(res, 500, false, error.message);
   }
