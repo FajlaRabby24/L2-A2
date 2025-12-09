@@ -2,24 +2,24 @@ import { Request, Response } from "express";
 import { sendResponse } from "../../utils/sendResponse";
 import { bookingService } from "./booking.service";
 
+// create booking -> admin, own
 const createBooking = async (req: Request, res: Response) => {
   try {
     const result = await bookingService.createBooking(req.body);
-    if (!result.rowCount) {
-      return sendResponse(
-        res,
-        500,
-        false,
-        "Something went wrong! please try again"
-      );
+
+    if (typeof result === "string") {
+      return sendResponse(res, 400, false, result);
     }
 
-    sendResponse(
+    if (result.rowCount! > 0) {
+      return sendResponse(res, 201, true, "Booking created!", result.rows[0]);
+    }
+
+    return sendResponse(
       res,
-      201,
-      true,
-      "Booking created successfully",
-      result.rows[0]
+      500,
+      false,
+      "Unknown error while creating booking"
     );
   } catch (error: any) {
     sendResponse(res, 500, false, error.message);

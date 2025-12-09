@@ -1,21 +1,35 @@
+import { QueryResult } from "pg";
 import { pool } from "../../config/db";
+import { getDiffDay } from "../../utils/getDiffDay";
 import { isDateOver } from "../../utils/isDateOver";
 import { authConstant } from "../auth/auth.constant";
+import { getSingleVehicle } from "../vehicles/vehicles.service";
 
-const createBooking = async (payload: Record<string, unknown>) => {
-  const {
-    customer_id,
-    vehicle_id,
-    rent_start_date,
-    rent_end_date,
-    total_price,
-    status,
-  } = payload;
+// create booking -> admin, own
+const createBooking = async (
+  payload: Record<string, unknown>
+): Promise<QueryResult<any> | string> => {
+  const { customer_id, vehicle_id, rent_start_date, rent_end_date, status } =
+    payload;
+
+  const getVehicle = await getSingleVehicle(vehicle_id as string);
+
+  if (!getVehicle.rowCount) {
+    return "That vehicles doesn't exists!";
+  }
+
+  const dayly_rent_price = getVehicle.rows[0].daily_rent_price as number;
+
+  const daysDiff = getDiffDay(
+    rent_start_date as string,
+    rent_end_date as string
+  );
+  const total_price = daysDiff * dayly_rent_price;
   const result = await pool.query(
     `
-          INSERT INTO bookings(customer_id, vehicle_id, rent_start_date, rent_end_date, total_price, status)
-          VALUES ($1, $2, $3, $4, $5, $6)  RETURNING *
-        `,
+            INSERT INTO bookings(customer_id, vehicle_id, rent_start_date, rent_end_date, total_price, status)
+            VALUES ($1, $2, $3, $4, $5, $6)  RETURNING *
+          `,
     [
       customer_id,
       vehicle_id,
@@ -24,6 +38,15 @@ const createBooking = async (payload: Record<string, unknown>) => {
       total_price,
       status,
     ]
+  );
+
+  await pool.query(
+    `
+    UPDATE vehicles
+    SET availability_status = $1
+    WHERE id = $2
+  `,
+    ["booked", vehicle_id]
   );
 
   return result;

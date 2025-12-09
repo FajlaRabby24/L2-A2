@@ -31,7 +31,7 @@ const getAllVehicles = async () => {
 };
 
 // get sigle vehicle
-const getSingleVehicle = async (id: string) => {
+export const getSingleVehicle = async (id: string) => {
   return await pool.query(`SELECT * FROM vehicles WHERE id = $1`, [id]);
 };
 

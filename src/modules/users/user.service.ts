@@ -1,6 +1,7 @@
 import { Request } from "express";
 import { pool } from "../../config/db";
 
+// get all user -> admin
 const getAllUsers = async () => {
   return await pool.query(`
         SELECT * FROM users
