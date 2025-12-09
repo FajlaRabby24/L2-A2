@@ -5,6 +5,7 @@ import { usersControllers } from "./user.controller";
 
 const router = Router();
 
+// get all users -> admin
 router.get("/", auth(authConstant.admin), usersControllers.getAllUsers);
 
 router.put(
