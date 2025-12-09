@@ -35,6 +35,7 @@ const createBooking = async (req: Request, res: Response) => {
   }
 };
 
+// get bookings -> admin all, own only own
 const getBookings = async (req: Request, res: Response) => {
   try {
     const result = await bookingService.getBookings(req.user!);

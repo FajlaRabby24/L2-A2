@@ -6,11 +6,21 @@ import { sendResponse } from "../utils/sendResponse";
 export const auth = (...roles: ("admin" | "customer")[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
-      const token = req.headers.authorization;
-      if (!token) {
+      const authHeader = req.headers.authorization;
+      if (!authHeader) {
         return sendResponse(res, 402, false, "You are not allowed!");
       }
 
+      if (!authHeader.startsWith("Bearer ")) {
+        return sendResponse(
+          res,
+          400,
+          false,
+          "Invalid token format! Use 'Bearer <token>'"
+        );
+      }
+
+      const token = authHeader.split(" ")[1]!;
       const decoded = jwt.verify(token, config.jwt_secret!) as JwtPayload;
       req.user = decoded;
 

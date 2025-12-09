@@ -56,16 +56,18 @@ const createBooking = async (
   return result;
 };
 
+// get bookings -> admin all, own only own
 const getBookings = async (user: Record<string, unknown>) => {
-  if (user.role === "admin") {
+  if (user.role === authConstant.admin) {
     const result = await pool.query(`SELECT * FROM bookings`);
     return result;
   }
 
-  if (user.role === "customer") {
-    const result = await pool.query(`SELECT * FROM bookings WHERE id = $1`, [
-      user.id,
-    ]);
+  if (user.role === authConstant.customer) {
+    const result = await pool.query(
+      `SELECT * FROM bookings WHERE customer_id = $1`,
+      [user.id]
+    );
     return result;
   }
 
