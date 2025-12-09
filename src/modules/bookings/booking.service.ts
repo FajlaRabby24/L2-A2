@@ -8,7 +8,7 @@ import { getSingleVehicle } from "../vehicles/vehicles.service";
 // create booking -> admin, own
 const createBooking = async (
   payload: Record<string, unknown>
-): Promise<QueryResult<any> | string> => {
+): Promise<QueryResult<any> | any> => {
   const { customer_id, vehicle_id, rent_start_date, rent_end_date, status } =
     payload;
 
@@ -21,6 +21,8 @@ const createBooking = async (
   if (getVehicle.rows[0].availability_status === "booked") {
     return "booked";
   }
+
+  const bookingStatus = status || "active";
 
   const dayly_rent_price = getVehicle.rows[0].daily_rent_price as number;
 
@@ -40,20 +42,20 @@ const createBooking = async (
       rent_start_date,
       rent_end_date,
       total_price,
-      status,
+      bookingStatus,
     ]
   );
 
-  await pool.query(
+  const updateVehicle = await pool.query(
     `
     UPDATE vehicles
     SET availability_status = $1
-    WHERE id = $2
+    WHERE id = $2 RETURNING vehicle_name, daily_rent_price
   `,
     ["booked", vehicle_id]
   );
 
-  return result;
+  return { ...result, vehicle: updateVehicle.rows[0] };
 };
 
 // get bookings -> admin all, own only own
@@ -103,13 +105,9 @@ const updateBooking = async (
     );
 
     if (isOwnBookings.rowCount) {
-      console.log({ result: isOwnBookings.rows[0] });
-      console.log({ isOwnBookings: isOwnBookings.rows[0] });
-
       const isBookingsDateOver = isDateOver(
         isOwnBookings.rows[0].rent_start_date
       );
-      console.log(isBookingsDateOver);
 
       if (!isBookingsDateOver) {
         const result = await pool.query(

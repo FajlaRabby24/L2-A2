@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { sendResponse } from "../../utils/sendResponse";
 import { bookingService } from "./booking.service";
 
-// create booking -> admin, own
+// create booking -> admin, customer
 const createBooking = async (req: Request, res: Response) => {
   try {
     const result = await bookingService.createBooking(req.body);
@@ -21,7 +21,10 @@ const createBooking = async (req: Request, res: Response) => {
     }
 
     if (result.rowCount! > 0) {
-      return sendResponse(res, 201, true, "Booking created!", result.rows[0]);
+      return sendResponse(res, 201, true, "Booking created successfully", {
+        ...result.rows[0],
+        vehicle: result.vehicle,
+      });
     }
 
     return sendResponse(
@@ -35,7 +38,7 @@ const createBooking = async (req: Request, res: Response) => {
   }
 };
 
-// get bookings -> admin all, own only own
+// get bookings -> admin all, customer only own
 const getBookings = async (req: Request, res: Response) => {
   try {
     const result = await bookingService.getBookings(req.user!);
@@ -54,7 +57,7 @@ const getBookings = async (req: Request, res: Response) => {
   }
 };
 
-// update booking by id -> admin, own
+// update booking by id -> admin, customer
 const updateBooking = async (req: Request, res: Response) => {
   try {
     const result = await bookingService.updateBooking(

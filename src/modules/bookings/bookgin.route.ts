@@ -5,6 +5,7 @@ import { bookginController } from "./booking.controller";
 
 const router = Router();
 
+// create booking -> admin, customer
 router.post(
   "/",
   auth(authConstant.admin, authConstant.customer),

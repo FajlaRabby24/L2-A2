@@ -47,7 +47,7 @@ export const initDB = async () => {
     rent_end_date DATE NOT NULL,
 
     total_price INT NOT NULL,
-    status VARCHAR(20) NOT NULL DEFAULT 'active',
+    status VARCHAR(20)  DEFAULT 'active',
 
     CONSTRAINT valid_status CHECK (status IN ('active', 'cancelled', 'returned')),
     CONSTRAINT positive_price CHECK (total_price > 0),
