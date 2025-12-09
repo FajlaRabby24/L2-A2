@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { sendResponse } from "../../utils/sendResponse";
 import { vehiclesService } from "./vehicles.service";
 
+// create vehicle -> admin
 const createVehicles = async (req: Request, res: Response) => {
   try {
     const result = await vehiclesService.createVehicles(req.body);
@@ -18,7 +19,7 @@ const createVehicles = async (req: Request, res: Response) => {
       res,
       201,
       true,
-      "Vehicles created successfully",
+      "Vehicle created successfully",
       result.rows[0]
     );
   } catch (error: any) {

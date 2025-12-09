@@ -5,7 +5,6 @@ import { pool } from "../../config/db";
 
 const signup = async (payload: Record<string, any>) => {
   const { name, role, email, password, phone } = payload;
-  console.log(payload);
 
   const hashedPass = await bcrypt.hash(password, 10);
 
